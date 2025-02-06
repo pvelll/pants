@@ -1,6 +1,6 @@
-package com.example.pants.domain
+package com.suskpavel.pants.domain.model
 
-class ColorModel(
+data class ColorModel(
     val name: String,
     val realHue: Float,
     val guessHue: Float?,

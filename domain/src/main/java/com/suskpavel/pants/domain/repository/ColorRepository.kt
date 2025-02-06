@@ -1,6 +1,6 @@
-package com.example.pants.service
+package com.suskpavel.pants.domain.repository
 
-import com.example.pants.domain.ColorModel
+import com.suskpavel.pants.domain.model.ColorModel
 
 interface ColorRepository {
 

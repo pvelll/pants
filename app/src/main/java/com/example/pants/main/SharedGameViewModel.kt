@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pants.domain.ColorModel
-import com.example.pants.utils.CheckBoardOrderUseCase
-import com.example.pants.utils.GetColorBoardUseCase
+import com.suskpavel.pants.domain.model.ColorModel
+import com.suskpavel.pants.domain.usecase.CheckBoardOrderUseCase
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SharedGameViewModel(
-    private val getColorBoardUseCase: GetColorBoardUseCase,
+    private val getColorBoardUseCase: com.suskpavel.pants.domain.usecase.GetColorBoardUseCase,
     private val checkBoardOrderUseCase: CheckBoardOrderUseCase
 ) : ViewModel() {
 

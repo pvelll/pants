@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    //modules
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -64,7 +67,6 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
-    implementation(libs.bundles.androidx.retrofit)
     implementation(libs.kotlinx.coroutine)
     implementation(libs.kotlinx.collection)
     implementation(libs.koin.android)
