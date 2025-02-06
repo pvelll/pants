@@ -1,4 +1,4 @@
-package com.example.pants.main
+package com.example.pants.presentation.fragments
 
 import android.util.Log
 import androidx.compose.ui.graphics.Color

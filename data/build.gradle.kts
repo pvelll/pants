@@ -36,6 +36,7 @@ dependencies {
 
     implementation(project(":domain"))
 
+    implementation(libs.koin.android)
     implementation(libs.bundles.androidx.retrofit)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

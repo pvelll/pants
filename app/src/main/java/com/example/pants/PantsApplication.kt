@@ -1,7 +1,7 @@
 package com.example.pants
 
 import android.app.Application
-import com.example.pants.di.dataModule
+import com.sushkpavel.pants.data.di.dataModule
 import com.example.pants.di.viewModelsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

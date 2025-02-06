@@ -5,7 +5,7 @@ import com.suskpavel.pants.domain.model.ColorResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ColorApi {
+interface ColorApiService {
     @GET("id")
     suspend fun getColor(
         @Query("hsv") hsv: String

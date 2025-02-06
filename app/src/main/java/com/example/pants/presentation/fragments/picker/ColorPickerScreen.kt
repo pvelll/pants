@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.pants.R
 import com.suskpavel.pants.domain.model.ColorModel
-import com.example.pants.main.SharedGameViewModel
+import com.example.pants.presentation.fragments.SharedGameViewModel
 import com.example.pants.presentation.utils.components.PickerContent
 import com.example.pants.presentation.utils.components.SaveButton
 import com.example.pants.presentation.utils.hue

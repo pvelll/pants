@@ -1,14 +1,14 @@
 package com.sushkpavel.pants.data.remote.repository
 
 import com.suskpavel.pants.domain.model.ColorModel
-import com.sushkpavel.pants.data.remote.api.color.ColorApi
+import com.sushkpavel.pants.data.remote.api.color.ColorApiService
 import com.sushkpavel.pants.data.util.generateRandomColor
 import com.sushkpavel.pants.data.util.toColorModel
 import com.suskpavel.pants.domain.repository.ColorRepository
 import java.util.Locale
 
 class ColorRepositoryImpl(
-    private val apiService: ColorApi,
+    private val apiService: ColorApiService,
 ) : ColorRepository {
 
     override suspend fun getRandomColors(count: Int): Result<Set<ColorModel>> = runCatching {

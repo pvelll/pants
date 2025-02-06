@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import com.example.pants.databinding.FragmentPickerBinding
-import com.example.pants.main.SharedGameViewModel
+import com.example.pants.presentation.fragments.SharedGameViewModel
 import com.example.pants.presentation.fragments.game.GameFragment.Companion.COLOR_NAME_ARG
 import com.example.pants.presentation.theme.PantsAppTheme
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
