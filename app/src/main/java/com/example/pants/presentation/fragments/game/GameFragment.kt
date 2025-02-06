@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.pants.R
 import com.example.pants.databinding.FragmentGameBinding
 import com.example.pants.presentation.utils.extension.collectFlow
@@ -14,6 +17,7 @@ import com.example.pants.presentation.utils.extension.showToast
 import com.example.pants.presentation.fragments.SharedGameViewModel
 import com.example.pants.presentation.ui.ColorListAdapter
 import com.example.pants.presentation.fragments.picker.ColorPickerFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class GameFragment : Fragment() {
@@ -47,7 +51,14 @@ class GameFragment : Fragment() {
 
             colorsList.adapter = adapter
 
-            collectFlow(viewModel.colorBoard, adapter::submitList)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.screenState.collect { screenState ->
+                        adapter.submitList(screenState.colorBoard)
+                    }
+                }
+            }
+
             collectFlow(viewModel.errorMessage, ::showErrorDialog)
 
             btnCheck.setOnClickListener {

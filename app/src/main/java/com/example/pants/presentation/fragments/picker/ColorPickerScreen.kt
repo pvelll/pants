@@ -30,18 +30,16 @@ import com.example.pants.presentation.utils.hue
 
 @Composable
 fun ColorPickerScreen(viewModel: SharedGameViewModel, onSave: () -> Unit) {
-    val selectedColor by viewModel.selectedColor.collectAsStateWithLifecycle()
-    val currentColorName by viewModel.currentColorName.collectAsStateWithLifecycle()
-    val colorBoard by viewModel.colorBoard.collectAsStateWithLifecycle()
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     ColorPicker(
-        selectedColor = selectedColor,
-        colorName = currentColorName,
+        selectedColor = screenState.selectedColor,
+        colorName = screenState.currentColorName,
         onSaveColor = {
-            viewModel.saveColor(selectedColor.hue)
+            viewModel.saveColor(screenState.selectedColor.hue)
             onSave()
         },
         onUpdateColorSettings = viewModel::updateColorSettings,
-        colors = colorBoard,
+        colors = screenState.colorBoard,
     )
 }
 
