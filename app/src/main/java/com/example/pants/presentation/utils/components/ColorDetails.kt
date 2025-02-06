@@ -11,8 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pants.R
@@ -27,7 +31,10 @@ internal fun ColorDetails(modifier: Modifier, color: Color) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         DataPointPresenter("HUE", stringResource(R.string.hue_data, color.hue))
-        DataPointPresenter("RGB", String.format(stringResource(R.string.rgb_data), color.red, color.green, color.blue))
+        DataPointPresenter(
+            "RGB",
+            String.format(stringResource(R.string.rgb_data), color.red, color.green, color.blue)
+        )
     }
 }
 
@@ -35,15 +42,28 @@ internal fun ColorDetails(modifier: Modifier, color: Color) {
 internal fun DataPointPresenter(title: String, data: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = title
-        )
-        Text(
-            text = data,
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            ),
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                ) {
+                    append(title)
+                    append("\n")
+                }
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    append(data)
+                }
+            },
+            textAlign = TextAlign.Center
         )
     }
 }

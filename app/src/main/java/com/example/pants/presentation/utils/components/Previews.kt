@@ -29,7 +29,7 @@ internal fun Previews(
             .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Box() {
+        Box {
             for (color in List(colors.size) { it }) {
                 ColorBoardPreview(modifier = Modifier.fillMaxHeight(), colors = colors)
             }
