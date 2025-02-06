@@ -1,6 +1,6 @@
 package com.example.pants.utils
 
-import com.example.pants.domain.ColorModel
+import com.suskpavel.pants.domain.model.ColorModel
 
 class CheckBoardOrderUseCase {
 

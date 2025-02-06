@@ -1,4 +1,4 @@
-package com.example.pants.domain
+package com.suskpavel.pants.domain.model
 
 data class ColorResponse(
     val name: Name,
