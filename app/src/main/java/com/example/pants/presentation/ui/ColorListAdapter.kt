@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pants.databinding.ItemColorBinding
-import com.example.pants.domain.ColorModel
-import com.example.pants.utils.extension.swap
+import com.suskpavel.pants.domain.model.ColorModel
+import com.example.pants.presentation.utils.extension.swap
 
 class ColorListAdapter(
     private val onItemClicked: (ColorModel) -> Unit,
@@ -77,7 +77,7 @@ class ColorListAdapter(
                 ).toArgb()
             } else if (item.guessHue != null) {
                 Color.hsv(
-                    hue = item.guessHue,
+                    hue = item.guessHue!!,
                     saturation = 1f,
                     value = 1f
                 ).toArgb()

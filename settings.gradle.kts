@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Pants"
 include(":app")
- 
+include(":domain")
+include(":data")
