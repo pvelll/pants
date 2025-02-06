@@ -1,4 +1,4 @@
-package com.example.pants.di
+package com.sushkpavel.pants.data.di
 
 import com.suskpavel.pants.domain.usecase.CheckBoardOrderUseCase
 import com.suskpavel.pants.domain.usecase.GetColorBoardUseCase

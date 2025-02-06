@@ -1,4 +1,4 @@
-package com.example.pants.di
+package com.sushkpavel.pants.data.di
 
 import com.sushkpavel.pants.data.remote.repository.ColorRepositoryImpl
 import org.koin.core.module.dsl.bind
