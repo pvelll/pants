@@ -15,7 +15,7 @@ import com.example.pants.presentation.utils.extension.setColoredText
 import com.example.pants.presentation.utils.extension.showErrorDialog
 import com.example.pants.presentation.utils.extension.showToast
 import com.example.pants.presentation.fragments.SharedGameViewModel
-import com.example.pants.presentation.ui.ColorListAdapter
+import com.example.pants.presentation.utils.adapter.ColorListAdapter
 import com.example.pants.presentation.fragments.picker.ColorPickerFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -48,24 +48,33 @@ class GameFragment : Fragment() {
             _adapter = ColorListAdapter { colorModel ->
                 navigateToPicker(colorModel.name)
             }
-
             colorsList.adapter = adapter
-
+            progressBar.visibility = View.VISIBLE
+            colorsList.visibility = View.GONE
+            hseGradient.visibility = View.GONE
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.screenState.collect { screenState ->
-                        adapter.submitList(screenState.colorBoard)
+                        if (screenState.colorBoard.isEmpty()) {
+                            progressBar.visibility = View.VISIBLE
+                            colorsList.visibility = View.GONE
+                            hseGradient.visibility = View.GONE
+                        } else {
+                            progressBar.visibility = View.GONE
+                            colorsList.visibility = View.VISIBLE
+                            hseGradient.visibility = View.VISIBLE
+                            adapter.submitList(screenState.colorBoard)
+                        }
                     }
                 }
             }
-
             collectFlow(viewModel.errorMessage, ::showErrorDialog)
-
             btnCheck.setOnClickListener {
                 checkOrderAndChangeView()
             }
         }
     }
+
 
     private fun navigateToPicker(colorName: String) {
         val fragment = ColorPickerFragment().apply {

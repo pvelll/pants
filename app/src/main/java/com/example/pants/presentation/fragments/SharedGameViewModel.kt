@@ -69,11 +69,21 @@ class SharedGameViewModel(
         _screenState.update { currentState ->
             val newSelectedColor = Color.hsv(hue, 1f, 1f)
             val updatedColorBoard = currentState.colorBoard.map { colorModel ->
-                if (colorModel.name == currentState.currentColorName) {
-                    colorModel.updateHue(hue)
+                if (Color.hsv(
+                        colorModel.guessHue ?: 0f,
+                        colorModel.saturation,
+                        colorModel.value
+                    ) != currentState.selectedColor
+                ) {
+                    colorModel.updateHue(colorModel.guessHue)
                 } else {
-                    colorModel
+                    colorModel.updateHue(hue)
                 }
+//                if (colorModel.name == currentState.currentColorName) {
+//                    colorModel.updateHue(hue)
+//                } else {
+//                    colorModel
+//                }
             }
             currentState.copy(
                 selectedColor = newSelectedColor,
@@ -137,7 +147,3 @@ class SharedGameViewModel(
         const val BOARD_SIZE = 5
     }
 }
-
-
-
-
