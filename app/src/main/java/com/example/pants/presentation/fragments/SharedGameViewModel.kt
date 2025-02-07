@@ -79,11 +79,6 @@ class SharedGameViewModel(
                 } else {
                     colorModel.updateHue(hue)
                 }
-//                if (colorModel.name == currentState.currentColorName) {
-//                    colorModel.updateHue(hue)
-//                } else {
-//                    colorModel
-//                }
             }
             currentState.copy(
                 selectedColor = newSelectedColor,

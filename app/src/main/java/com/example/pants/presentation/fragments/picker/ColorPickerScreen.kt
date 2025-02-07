@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +31,7 @@ import com.example.pants.presentation.utils.hue
 
 
 @Composable
-fun ColorPickerScreen(viewModel: SharedGameViewModel,onSave: () -> Unit) {
+fun ColorPickerScreen(viewModel: SharedGameViewModel, onSave: () -> Unit) {
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     val onSaveColor = remember(screenState.selectedColor) {
         {

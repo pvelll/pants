@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toRect
 import com.example.pants.R
-import com.example.pants.presentation.utils.hue
 
 private const val PICKER_WIDTH = 300
 
@@ -38,11 +36,9 @@ private const val PICKER_WIDTH = 300
 fun HuePicker(
     modifier: Modifier = Modifier,
     hue: Float,
-    animatedColor: Color,
     onHueChange: (Float) -> Unit,
 ) {
-    onHueChange(hue)
-    val colorHue = animatedColor.hue
+//    onHueChange(hue)
     Box(
         modifier = modifier
             .height(40.dp)

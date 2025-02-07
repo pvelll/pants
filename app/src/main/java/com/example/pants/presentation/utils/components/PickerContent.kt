@@ -35,7 +35,7 @@ internal fun PickerContent(
             animatedColor = animatedColor,
             animatedGradient = animatedGradient,
         )
-        HuePicker(hue = selectedColor.hue, animatedColor = animatedColor, onHueChange = onHueChange)
+        HuePicker(hue = selectedColor.hue, onHueChange = onHueChange)
     }
 }
 

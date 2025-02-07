@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.pants.R
@@ -37,6 +38,7 @@ class GameFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         _viewBinding = FragmentGameBinding.inflate(inflater, container, false)
+
         return viewBinding.root
     }
 
@@ -49,23 +51,13 @@ class GameFragment : Fragment() {
                 navigateToPicker(colorModel.name)
             }
             colorsList.adapter = adapter
-            progressBar.visibility = View.VISIBLE
-            colorsList.visibility = View.GONE
-            hseGradient.visibility = View.GONE
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.screenState.collect { screenState ->
-                        if (screenState.colorBoard.isEmpty()) {
-                            progressBar.visibility = View.VISIBLE
-                            colorsList.visibility = View.GONE
-                            hseGradient.visibility = View.GONE
-                        } else {
-                            progressBar.visibility = View.GONE
-                            colorsList.visibility = View.VISIBLE
-                            hseGradient.visibility = View.VISIBLE
-                            adapter.submitList(screenState.colorBoard)
-                        }
-                    }
+            setRecyclerViewVisibility(false)
+            collectFlow(viewModel.screenState) {
+                if (it.colorBoard.isEmpty()) {
+                    setRecyclerViewVisibility(false)
+                } else {
+                    setRecyclerViewVisibility(true)
+                    adapter.submitList(it.colorBoard)
                 }
             }
             collectFlow(viewModel.errorMessage, ::showErrorDialog)
@@ -74,7 +66,6 @@ class GameFragment : Fragment() {
             }
         }
     }
-
 
     private fun navigateToPicker(colorName: String) {
         val fragment = ColorPickerFragment().apply {
@@ -95,6 +86,7 @@ class GameFragment : Fragment() {
                 colors == null -> {
                     showToast(getString(R.string.success))
                 }
+
                 colors.isNotEmpty() -> {
                     adapter.apply {
                         setOriginalList()
@@ -111,6 +103,16 @@ class GameFragment : Fragment() {
             }
         }
     }
+
+    private fun setRecyclerViewVisibility(isVisible: Boolean) {
+        with(viewBinding) {
+            val visibility = if (isVisible) View.VISIBLE else View.GONE
+            progressBar.visibility = if (isVisible) View.GONE else View.VISIBLE
+            colorsList.visibility = visibility
+            hseGradient.visibility = visibility
+        }
+    }
+
 
     private fun resetNextButton() {
         with(viewBinding) {
