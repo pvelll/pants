@@ -5,6 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.pants.R
 import com.example.pants.databinding.FragmentGameBinding
 import com.example.pants.presentation.utils.extension.collectFlow
@@ -12,8 +16,9 @@ import com.example.pants.presentation.utils.extension.setColoredText
 import com.example.pants.presentation.utils.extension.showErrorDialog
 import com.example.pants.presentation.utils.extension.showToast
 import com.example.pants.presentation.fragments.SharedGameViewModel
-import com.example.pants.presentation.ui.ColorListAdapter
+import com.example.pants.presentation.utils.adapter.ColorListAdapter
 import com.example.pants.presentation.fragments.picker.ColorPickerFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class GameFragment : Fragment() {
@@ -33,6 +38,7 @@ class GameFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         _viewBinding = FragmentGameBinding.inflate(inflater, container, false)
+
         return viewBinding.root
     }
 
@@ -44,12 +50,17 @@ class GameFragment : Fragment() {
             _adapter = ColorListAdapter { colorModel ->
                 navigateToPicker(colorModel.name)
             }
-
             colorsList.adapter = adapter
-
-            collectFlow(viewModel.colorBoard, adapter::submitList)
+            setRecyclerViewVisibility(false)
+            collectFlow(viewModel.screenState) {
+                if (it.colorBoard.isEmpty()) {
+                    setRecyclerViewVisibility(false)
+                } else {
+                    setRecyclerViewVisibility(true)
+                    adapter.submitList(it.colorBoard)
+                }
+            }
             collectFlow(viewModel.errorMessage, ::showErrorDialog)
-
             btnCheck.setOnClickListener {
                 checkOrderAndChangeView()
             }
@@ -75,6 +86,7 @@ class GameFragment : Fragment() {
                 colors == null -> {
                     showToast(getString(R.string.success))
                 }
+
                 colors.isNotEmpty() -> {
                     adapter.apply {
                         setOriginalList()
@@ -91,6 +103,16 @@ class GameFragment : Fragment() {
             }
         }
     }
+
+    private fun setRecyclerViewVisibility(isVisible: Boolean) {
+        with(viewBinding) {
+            val visibility = if (isVisible) View.VISIBLE else View.GONE
+            progressBar.visibility = if (isVisible) View.GONE else View.VISIBLE
+            colorsList.visibility = visibility
+            hseGradient.visibility = visibility
+        }
+    }
+
 
     private fun resetNextButton() {
         with(viewBinding) {

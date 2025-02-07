@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,18 +32,21 @@ import com.example.pants.presentation.utils.hue
 
 @Composable
 fun ColorPickerScreen(viewModel: SharedGameViewModel, onSave: () -> Unit) {
-    val selectedColor by viewModel.selectedColor.collectAsStateWithLifecycle()
-    val currentColorName by viewModel.currentColorName.collectAsStateWithLifecycle()
-    val colorBoard by viewModel.colorBoard.collectAsStateWithLifecycle()
-    ColorPicker(
-        selectedColor = selectedColor,
-        colorName = currentColorName,
-        onSaveColor = {
-            viewModel.saveColor(selectedColor.hue)
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val onSaveColor = remember(screenState.selectedColor) {
+        {
+            viewModel.saveColor(screenState.selectedColor.hue)
             onSave()
-        },
+        }
+    }
+
+
+    ColorPicker(
+        selectedColor = screenState.selectedColor,
+        colorName = screenState.currentColorName,
+        onSaveColor = onSaveColor,
         onUpdateColorSettings = viewModel::updateColorSettings,
-        colors = colorBoard,
+        colors = screenState.colorBoard,
     )
 }
 
@@ -105,7 +110,8 @@ private fun ColorPickerPreview() {
         guessHue = null,
     )
     val selected = Color.hsv(model.realHue, model.saturation, model.value)
-    ColorPicker(selectedColor = selected,
+    ColorPicker(
+        selectedColor = selected,
         colorName = model.name,
         onUpdateColorSettings = { _ -> },
         onSaveColor = {},

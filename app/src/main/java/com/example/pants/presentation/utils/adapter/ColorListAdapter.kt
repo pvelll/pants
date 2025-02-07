@@ -1,4 +1,4 @@
-package com.example.pants.presentation.ui
+package com.example.pants.presentation.utils.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList

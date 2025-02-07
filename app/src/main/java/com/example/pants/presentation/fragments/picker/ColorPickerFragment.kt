@@ -43,7 +43,7 @@ class ColorPickerFragment : Fragment() {
 
     private fun bindCompose() {
         viewBinding.composeView.apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setViewCompositionStrategy(ViewCompositionStrategy.Default)
             setContent {
                 PantsAppTheme {
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -61,3 +61,4 @@ class ColorPickerFragment : Fragment() {
         _viewBinding = null
     }
 }
+
