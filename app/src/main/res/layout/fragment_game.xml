@@ -60,7 +60,6 @@
             tools:itemCount="5"
             tools:listitem="@layout/item_color" />
 
-        <!-- Градиент -->
         <ImageView
             android:id="@+id/hseGradient"
             android:layout_width="40dp"
