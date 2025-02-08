@@ -32,6 +32,11 @@ android {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+
 dependencies {
 
     implementation(project(":domain"))
@@ -39,9 +44,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.bundles.androidx.retrofit)
     implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
