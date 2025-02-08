@@ -14,22 +14,35 @@ class ColorRepositoryImpl(
 ) : ColorRepository {
 
     override suspend fun getRandomColors(count: Int): Result<Set<ColorModel>> = runCatching {
+        val uniqueColors = mutableSetOf<ColorModel>()
+        val commonNamesLower = COMMON_USE_NAMES.map { it.lowercase() }.toSet()
+        var attempts = 0
+
         coroutineScope {
-            val uniqueColors = mutableSetOf<ColorModel>()
-            val commonNamesLower = COMMON_USE_NAMES
-            while (uniqueColors.size < count) {
+            while (uniqueColors.size < count ) {
                 val required = count - uniqueColors.size
                 val colors = (1..required).map {
-                    async { apiService.getColor(generateRandomColor()).toColorModel() }
-                }.awaitAll()
-                val validColors = colors.filter { color ->
-                    color.name.lowercase() !in commonNamesLower && uniqueColors.add(color)
+                    async {
+                        var colorModel: ColorModel
+                        do {
+                            colorModel = apiService.getColor(generateRandomColor()).toColorModel()
+                        } while (
+                            colorModel.name.lowercase() in commonNamesLower ||
+                            uniqueColors.contains(colorModel) ||
+                            colorModel.saturation <= 0.3f ||
+                            colorModel.value <= 0.4f
+                        )
+                        colorModel
+                    }
                 }
-                uniqueColors.addAll(validColors)
+                val newColors = colors.awaitAll()
+                uniqueColors.addAll(newColors)
+                attempts += required
             }
-            uniqueColors
         }
+        uniqueColors
     }
+
 
     private companion object {
         val COMMON_USE_NAMES = setOf(

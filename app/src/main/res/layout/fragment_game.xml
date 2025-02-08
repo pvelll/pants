@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,65 +9,80 @@
 
     <TextView
         android:id="@+id/textTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="40sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="32sp"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCheck"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        style="?android:attr/progressBarStyleLarge"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/colorsList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="center"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/btnCheck"
-        app:layout_constraintEnd_toStartOf="@+id/hseGradient"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintVertical_bias="0.5"
-        android:visibility="visible"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_color">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <ImageView
-        android:id="@+id/hseGradient"
-        android:layout_width="60dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/colorsList"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@+id/colorsList"
-        app:srcCompat="@drawable/hue_slider_track" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnCheck"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/rounded_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/next"
         android:textColor="@color/main_color"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_button"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/centerContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/textTitle"
+        app:layout_constraintBottom_toTopOf="@id/btnCheck"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.5">
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/colorsList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/hseGradient"
+            android:layout_marginHorizontal="8dp"
+            android:maxHeight="300dp"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_color" />
+
+        <ImageView
+            android:id="@+id/hseGradient"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            app:srcCompat="@drawable/hue_slider_track"
+            android:scaleType="fitXY"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@id/colorsList"
+            app:layout_constraintBottom_toBottomOf="@id/colorsList"
+            app:layout_constraintStart_toEndOf="@id/colorsList"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/centerContainer"
+        app:layout_constraintBottom_toBottomOf="@id/centerContainer"
+        app:layout_constraintStart_toStartOf="@id/centerContainer"
+        app:layout_constraintEnd_toEndOf="@id/centerContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
