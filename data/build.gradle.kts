@@ -31,12 +31,9 @@ android {
         jvmTarget = "11"
     }
 }
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-
 dependencies {
 
     implementation(project(":domain"))
@@ -44,9 +41,11 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.bundles.androidx.retrofit)
     implementation(libs.core.ktx)
-    testImplementation(libs.junit.jupiter.engine)
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit.jupiter.api)
-    testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.core)
     testImplementation(libs.kotlinx.coroutines.test)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }

@@ -31,7 +31,7 @@ class ColorRepositoryImpl(
         }
     }
 
-    private companion object {
+  companion object {
         val COMMON_USE_NAMES = setOf(
             "beige",
             "black",

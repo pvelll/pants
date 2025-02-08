@@ -5,19 +5,14 @@ import com.sushkpavel.pants.data.remote.repository.ColorRepositoryImpl
 import com.suskpavel.pants.domain.model.ColorResponse
 import com.suskpavel.pants.domain.model.Hsv
 import com.suskpavel.pants.domain.model.Name
-import com.suskpavel.pants.domain.repository.ColorRepository
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.whenever
-import kotlin.system.measureTimeMillis
-
+import org.mockito.Mockito.mock
+import java.util.*
 
 class ColorRepositoryImplTest {
 
@@ -31,24 +26,13 @@ class ColorRepositoryImplTest {
     }
 
     @Test
-    fun `test getRandomColors returns unique colors`() = runTest {
+    fun `should return specified number of random colors`() = runTest {
         // Arrange
         val count = 5
-        val responses = listOf(
-            ColorResponse(Name("Color1"), Hsv(Hsv.Fraction(40f, 50f, 60f))),
-            ColorResponse(Name("Color2"), Hsv(Hsv.Fraction(50f, 55f, 65f))),
-            ColorResponse(Name("Color3"), Hsv(Hsv.Fraction(60f, 70f, 80f))),
-            ColorResponse(Name("Color4"), Hsv(Hsv.Fraction(70f, 75f, 85f))),
-            ColorResponse(Name("Color5"), Hsv(Hsv.Fraction(80f, 90f, 95f)))
-        )
+        val responses = generateColorResponses(count)
 
-        `when`(apiService.getColor(anyString())).thenReturn(
-            responses[0],
-            responses[1],
-            responses[2],
-            responses[3],
-            responses[4]
-        )
+        `when`(apiService.getColor(anyString()))
+            .thenAnswer { responses.removeFirst() }
 
         // Act
         val result = colorRepository.getRandomColors(count).getOrThrow()
@@ -58,29 +42,60 @@ class ColorRepositoryImplTest {
     }
 
     @Test
-    fun `test getRandomColors filters common names`() = runTest {
-        // Arrange
+    fun `should not contain duplicate colors`() = runTest {
         val count = 5
-        val responses = listOf(
-            ColorResponse(Name("blue"), Hsv(Hsv.Fraction(40f, 50f, 60f))),
-            ColorResponse(Name("green"), Hsv(Hsv.Fraction(50f, 55f, 65f))),
-            ColorResponse(Name("teal"), Hsv(Hsv.Fraction(60f, 70f, 80f))),
-            ColorResponse(Name("Color4"), Hsv(Hsv.Fraction(70f, 75f, 85f))),
-            ColorResponse(Name("Color5"), Hsv(Hsv.Fraction(80f, 90f, 95f)))
-        )
+        val responses = generateColorResponses(count)
 
-        `when`(apiService.getColor(anyString())).thenReturn(
-            responses[0],
-            responses[1],
-            responses[2],
-            responses[3],
-            responses[4]
-        )
+        `when`(apiService.getColor(anyString()))
+            .thenAnswer { responses.removeFirstOrNull() ?: generateColorResponses(count) }
 
-        // Act
         val result = colorRepository.getRandomColors(count).getOrThrow()
 
         // Assert
-        assertEquals(2, result.size)
+        assertEquals(count, result.size)
+        assertEquals(result.size, result.toSet().size)
+    }
+
+
+    @Test
+    fun `should filter out colors with saturation lt 30 or value lt 40`() = runTest {
+        val count = 5
+        val responses = generateColorResponses(count)
+
+        `when`(apiService.getColor(anyString()))
+            .thenAnswer { responses.removeFirst() }
+
+        val result = colorRepository.getRandomColors(count).getOrThrow()
+        assertTrue(result.all {
+            it.saturation >= 0.3f && it.value >= 0.4f
+        })
+
+    }
+
+    @Test
+    fun `should filter out colors with common names`() = runTest {
+        val count = 5
+        val responses = generateColorResponses(count)
+
+        `when`(apiService.getColor(anyString()))
+            .thenAnswer { responses.removeFirst() }
+
+        val result = colorRepository.getRandomColors(count).getOrThrow()
+        assertTrue(result.all {
+            (it.name !in ColorRepositoryImpl.COMMON_USE_NAMES)
+        })
+    }
+
+    private fun generateColorResponses(count: Int): LinkedList<ColorResponse> {
+        val responses = LinkedList<ColorResponse>()
+        for (i in 1..count) {
+            responses.add(
+                ColorResponse(
+                    Name("Color$i"),
+                    Hsv(Hsv.Fraction(0f, 0.5f, 0.5f))
+                )
+            )
+        }
+        return responses
     }
 }
