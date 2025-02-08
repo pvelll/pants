@@ -25,7 +25,7 @@ class ColorRepositoryImpl(
         colorList.toSet()
     }
 
-    private companion object {
+  companion object {
         val COMMON_USE_NAMES = setOf(
             "beige",
             "black",
