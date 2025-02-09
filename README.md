@@ -6,5 +6,13 @@
 вот на старом без рефакторинга дела обстоят гораздо хуже, тест упирается в пороговое значение выполнения корутины - 10с, и не хочет продолжать: 
 ![image](https://github.com/user-attachments/assets/61f53072-68a0-475f-8b71-997736067899)
 
+Хочу заранее сказать про git flow в этом репозитории, за счет того что я единственный человек которые работает с ним, я не стал реализлвывать ветку development, + не писал feature/ , hotfix/ и т.д., выделяя ветки лишь под отдельные задания,
+в целом их и можно назвать фича-ветками. 
 
- 
+
+к слову о задании про адаптивность game fragment (pants-6), верстка вышла достаточно адаптивной, накладывания элементов не наблюдаются даже на часах 
+![image](https://github.com/user-attachments/assets/e74af18a-4722-44a3-b01c-64aa8f59aa1f)
+![image](https://github.com/user-attachments/assets/b289d069-00b9-437f-8658-3867c4c5b0f2)
+![image](https://github.com/user-attachments/assets/a83db209-0105-432f-b56d-9391599f85fe)
+![image](https://github.com/user-attachments/assets/b81c5d52-54a1-4bbe-9fa1-e146c53bfd56)
+
